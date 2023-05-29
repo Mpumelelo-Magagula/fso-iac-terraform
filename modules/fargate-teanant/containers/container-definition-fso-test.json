@@ -1,0 +1,29 @@
+[
+  {
+    "name": "${container_name}",
+    "image": "562400728865.dkr.ecr.eu-west-1.amazonaws.com/ui_backend:latest",
+    "cpu": ${cpu},
+  "memory": ${memory},
+  ${length(command) > 0 ? "\"command\": ${command}," : ""}
+  "essential": true,
+  "logConfiguration": {
+  "logDriver": "awslogs",
+  "options": {
+    "awslogs-group": "${awslogs_group}",
+    "awslogs-region": "${awslogs_region}",
+    "awslogs-stream-prefix": "${awslogs_prefix}"
+  }
+},
+  "portMappings": [{
+  "containerPort": ${container_http_port},
+  "hostPort": ${container_http_port},
+  "protocol": "tcp"
+  }],
+  "environment": [
+  {"name" : "SERVER_TEXT", "value" : "${server_text}"},
+  {"name" : "AWS_DEFAULT_REGION", "value" : "${aws_region}"},
+  {"name" : "SECRET_REGION", "value" : "eu-west-1"},
+  {"name" :  "SECRET_NAME", "value" : "secret-client1-dev-eu-west-1"}
+]
+  }
+]
